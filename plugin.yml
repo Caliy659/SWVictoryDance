@@ -1,0 +1,11 @@
+name: SWVictoryDance
+main: fun.brou.VictoryDance.Main
+description: Hypixel VictoryDance remake!
+version: 1.0
+author: Brou4747
+website: brou.fun
+
+commands:
+  swvd:
+    description: Main Command
+    aliases: [skywarsvictorydance]
