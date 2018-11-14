@@ -5,6 +5,8 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,9 +17,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SWVDGUI  implements CommandExecutor, Listener {
+
+    File file = new File(Main.plugin.getDataFolder() + "/settings.yml");
+    FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -82,13 +88,13 @@ public class SWVDGUI  implements CommandExecutor, Listener {
                 if (p.hasPermission("vd.guardians")) {
                     lore2.add("§7Unlocked: §aRanked reward");
                     lore2.add("");
-                    //lore2.add("§eClick to select");
-                    lore2.add("§cCurrently Disabled!");
+                    lore2.add("§eClick to select");
+                    //lore2.add("§cCurrently Disabled!");
                 }
                 if (!p.hasPermission("vd.guardians")) {
                     lore2.add("");
-                    //lore2.add("§cGiven as a ranked reward");
-                    lore2.add("§cCurrently Disabled!");
+                    lore2.add("§cGiven as a ranked reward");
+                    //lore2.add("§cCurrently Disabled!");
                 }
 
                 ArrayList<String> lore3 = new ArrayList<String>();
@@ -138,8 +144,7 @@ public class SWVDGUI  implements CommandExecutor, Listener {
 
                 g2.setLore(lore2);
                 if (p.hasPermission("vd.guardians")) {
-                    g2.setDisplayName(ChatColor.RED + "Guardians");
-                    //g2.setDisplayName(ChatColor.GREEN + "Guardians");
+                    g2.setDisplayName(ChatColor.GREEN + "Guardians");
                 }if (!p.hasPermission("vd.guardians")) {
                     g2.setDisplayName(ChatColor.RED + "Guardians");
                 }
@@ -181,6 +186,8 @@ public class SWVDGUI  implements CommandExecutor, Listener {
             if (args[0].equalsIgnoreCase("reload")) {
                 Main.plugin.saveConfig();
                 Main.plugin.reloadConfig();
+                config.saveToString();
+                
                 p.sendMessage("§aconfig.yml reloaded!");
             }
         }
@@ -246,15 +253,15 @@ public class SWVDGUI  implements CommandExecutor, Listener {
                 if (p.hasPermission("vd.guardians")) {
                     e.setCancelled(true);
                     p.sendMessage(ChatColor.RED + "Currently Disabled!");
-                    /*p.sendMessage("§6You selected §aGuardians§6!");
+                    p.sendMessage("§6You selected §aGuardians§6!");
                     p.playSound(p.getLocation(), Sound.NOTE_PLING, 1f, 2f);
                     Main.plugin.getConfig().set(p.getUniqueId().toString() + ".DANCE", "GUARDIANS");
-                    Main.plugin.saveConfig();&*/
+                    Main.plugin.saveConfig();
                 }
             }if (e.getSlot() == 21 && (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + "Guardians"))) {
                 e.setCancelled(true);
                 p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.5f);
-                //p.sendMessage(ChatColor.RED + "You dont have the Guardians Victory Dance!");
+                p.sendMessage(ChatColor.RED + "You dont have the Guardians Victory Dance!");
             }
 
             if (e.getSlot() == 20 && (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + "Yeehaw"))) {
